@@ -1,0 +1,5 @@
+package fakedevices
+
+func TestTranscriptReader () {
+	
+}
