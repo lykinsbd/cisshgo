@@ -1,4 +1,5 @@
 # cisshgo
+
 Simple, small, fast, concurrent SSH server to emulate network equipment (i.e. Cisco IOS) for testing purposes.
 
 ## Usage
@@ -7,7 +8,7 @@ Simple, small, fast, concurrent SSH server to emulate network equipment (i.e. Ci
 2. Execute `go run cissh.go` as shown below:
 
 ```bash
-$ go run cissh.go 
+$ go run cissh.go
 2020/08/22 00:17:34 starting ssh server on port :10049
 2020/08/22 00:17:34 starting ssh server on port :10023
 2020/08/22 00:17:34 starting ssh server on port :10024
@@ -32,7 +33,7 @@ $ ./cisshgo
 
 Example output:
 
-```
+```plaintext
 test_device#show version
 Cisco IOS XE Software, Version 16.04.01
 Cisco IOS Software [Everest], CSR1000V Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 16.4.1, RELEASE SOFTWARE (fc2)
@@ -56,19 +57,19 @@ ROM: IOS-XE ROMMON
 There are several options available to control the behavior
  of cisshgo see the below output of `-help`:
 
-```
+```plaintext
   -listeners int
-    	How many listeners do you wish to spawn? (default 50)
+        How many listeners do you wish to spawn? (default 50)
   -startingPort int
-    	What port do you want to start at? (default 10000)
+        What port do you want to start at? (default 10000)
   -transcriptMap string
-    	What file contains the map of commands to transcribed output? (default "transcripts/transcript_map.yaml")
+        What file contains the map of commands to transcribed output? (default "transcripts/transcript_map.yaml")
 ```
 
 For example, if you only wish to launch with a single SSH listener for a testing process,
  you could simply apply `-listeners 1` to the run command:
 
-```
+```bash
 go run cissh.go -listeners 1
 2020/09/03 19:41:04 Starting cissh.go ssh server on port :10000
 ```
@@ -84,7 +85,7 @@ If you wish to modify elements of the transcript dynamically, for example the ho
 
 For example, in the packaged output of `show_version.txt` the hostname is listed as:
 
-```
+```go
 ROM: IOS-XE ROMMON
 {{.Hostname}} uptime is 4 hours, 55 minutes
 Uptime for this control processor is 4 hours, 56 minutes
@@ -92,15 +93,15 @@ Uptime for this control processor is 4 hours, 56 minutes
 
 Any value in the `fakedevices.FakeDevice` struct can be referenced in this way, today these are:
 
-```
+```go
 type FakeDevice struct {
-	Vendor            string            // Vendor of this fake device
-	Platform          string            // Platform of this fake device
-	Hostname          string            // Hostname of the fake device
-	Password          string            // Password of the fake device
-	SupportedCommands SupportedCommands // What commands this fake device supports
-	ContextSearch     map[string]string // The available CLI prompt/contexts on this fake device
-	ContextHierarchy  map[string]string // The hierarchy of the available contexts
+    Vendor            string            // Vendor of this fake device
+    Platform          string            // Platform of this fake device
+    Hostname          string            // Hostname of the fake device
+    Password          string            // Password of the fake device
+    SupportedCommands SupportedCommands // What commands this fake device supports
+    ContextSearch     map[string]string // The available CLI prompt/contexts on this fake device
+    ContextHierarchy  map[string]string // The hierarchy of the available contexts
 }
 ```
 
@@ -112,7 +113,7 @@ If you wish to template additional/different values, they will need to be added 
 If you wish to add additional command transcripts, you simply need to include a plain text file in the appropriate
  `vendor/platform` folder, and create an entry in the `transcript_map.yaml` file under the appropriate vendor/platform:
 
-```
+```yaml
 ---
 platforms:
   - csr1000v:
@@ -144,5 +145,6 @@ The "handler" controls the basics of how we will emulate the SSH session, and pr
   devices vary in their CLI and interactions, the conditional tree that each requires will vary.
   This is implemented via the "handler" functionality.
 
-### Disclaimer
+## Disclaimer
+
 Cisco IOS is the property/trademark of Cisco.
