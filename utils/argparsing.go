@@ -30,7 +30,7 @@ func ParseArgs() (int, *int, TranscriptMap) {
 	startingPortPtr := flag.Int("startingPort", 10000, "What port do you want to start at?")
 	transcriptMapPtr := flag.String(
 		"transcriptMap",
-		"transcripts/transcript_map.yaml",
+		"transcripts/transcript_map.yml",
 		"What file contains the map of commands to transcribed output?",
 	)
 	flag.Parse()

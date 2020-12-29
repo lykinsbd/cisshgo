@@ -28,7 +28,7 @@ $ ./cisshgo
 
 3. SSH into one of the open ports with `admin` as the password. By default, you can run "show version"
  or "show ip interface brief" or "show running-config". Other commands can be added by modifying the
- transcript_map.yaml file and supplying transcripts as needed.
+ transcript_map.yml file and supplying transcripts as needed.
 
 Example output:
 
@@ -62,7 +62,7 @@ There are several options available to control the behavior
   -startingPort int
     	What port do you want to start at? (default 10000)
   -transcriptMap string
-    	What file contains the map of commands to transcribed output? (default "transcripts/transcript_map.yaml")
+    	What file contains the map of commands to transcribed output? (default "transcripts/transcript_map.yml")
 ```
 
 For example, if you only wish to launch with a single SSH listener for a testing process,
@@ -110,7 +110,7 @@ If you wish to template additional/different values, they will need to be added 
 ### Adding Additional Command Transcripts
 
 If you wish to add additional command transcripts, you simply need to include a plain text file in the appropriate
- `vendor/platform` folder, and create an entry in the `transcript_map.yaml` file under the appropriate vendor/platform:
+ `vendor/platform` folder, and create an entry in the `transcript_map.yml` file under the appropriate vendor/platform:
 
 ```
 ---
@@ -126,7 +126,7 @@ On the next execution of cisshgo it will read this map and respond to `my new fa
 
 If you wish to add a completely new Cisco-style device, that is one with `configure terminal`
  leading to a `(config)#` mode for example, you can simply supply additional device types and transcripts
- in the transcript_map.yaml file.
+ in the transcript_map.yml file.
 
 This however does not work if a device follows a different interaction pattern than the Cisco standard,
  for example a Juniper or F5 device, for that see the following section.
