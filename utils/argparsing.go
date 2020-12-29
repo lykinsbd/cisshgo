@@ -1,10 +1,10 @@
 package utils
 
 import (
-	"flag"
 	"io/ioutil"
 	"log"
 
+	flag "github.com/spf13/pflag"
 	"gopkg.in/yaml.v2"
 )
 
