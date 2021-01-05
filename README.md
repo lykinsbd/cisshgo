@@ -57,22 +57,22 @@ ROM: IOS-XE ROMMON
 ## Advanced Usage
 
 There are several options available to control the behavior
- of cisshgo see the below output of `-help`:
+ of cisshgo see the below output of `--help`:
 
 ```text
-  -listeners int
+  --listeners int
         How many listeners do you wish to spawn? (default 50)
-  -startingPort int
+  --startingPort int
         What port do you want to start at? (default 10000)
-  -transcriptMap string
+  --transcriptMap string
         What file contains the map of commands to transcribed output? (default "transcripts/transcript_map.yml")
 ```
 
 For example, if you only wish to launch with a single SSH listener for a testing process,
- you could simply apply `-listeners 1` to the run command:
+ you could simply apply `--listeners 1` to the run command:
 
 ```bash
-$ go run cissh.go -listeners 1
+$ go run cissh.go --listeners 1
 2020/09/03 19:41:04 Starting cissh.go ssh server on port :10000
 ```
 
