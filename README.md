@@ -1,30 +1,33 @@
 # cisshgo
+
 Simple, small, fast, concurrent SSH server to emulate network equipment (i.e. Cisco IOS) for testing purposes.
 
 ## Usage
 
 1. Clone the repository and change into that directory (All dependencies are included in the `/vendor` folder, so no installation step is necessary.)
-2. Execute `go run cissh.go` as shown below:
+2. Run `cissh.go` one of two ways as shown below.
 
-```bash
-$ go run cissh.go 
-2020/08/22 00:17:34 starting ssh server on port :10049
-2020/08/22 00:17:34 starting ssh server on port :10023
-2020/08/22 00:17:34 starting ssh server on port :10024
-... <snip>
-```
+    a. Execute `go run cissh.go` to runtime compile:
 
-Alternatively you can compile and run in separate steps (useful for docker images, etc):
+    ```bash
+    $ go run cissh.go 
+    2020/08/22 00:17:34 starting ssh server on port :10049
+    2020/08/22 00:17:34 starting ssh server on port :10023
+    2020/08/22 00:17:34 starting ssh server on port :10024
+    ... <snip>
+    ```
 
-```bash
-$ go build cisshgo cissh.go
-$ ./cisshgo
-2020/09/02 15:46:31 starting cissh.go ssh server on port :10008
-2020/09/02 15:46:31 starting cissh.go ssh server on port :10005
-2020/09/02 15:46:31 starting cissh.go ssh server on port :10000
-2020/09/02 15:46:31 starting cissh.go ssh server on port :10006
-... <snip>
-```
+    b. Alternatively you can compile and run in separate steps (useful for docker images, etc):
+
+    ```bash
+    $ go build cisshgo cissh.go
+    $ ./cisshgo
+    2020/09/02 15:46:31 starting cissh.go ssh server on port :10008
+    2020/09/02 15:46:31 starting cissh.go ssh server on port :10005
+    2020/09/02 15:46:31 starting cissh.go ssh server on port :10000
+    2020/09/02 15:46:31 starting cissh.go ssh server on port :10006
+    ... <snip>
+    ```
 
 3. SSH into one of the open ports with `admin` as the password. By default, you can run "show version"
  or "show ip interface brief" or "show running-config". Other commands can be added by modifying the
@@ -32,7 +35,7 @@ $ ./cisshgo
 
 Example output:
 
-```
+```text
 test_device#show version
 Cisco IOS XE Software, Version 16.04.01
 Cisco IOS Software [Everest], CSR1000V Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 16.4.1, RELEASE SOFTWARE (fc2)
@@ -56,20 +59,20 @@ ROM: IOS-XE ROMMON
 There are several options available to control the behavior
  of cisshgo see the below output of `-help`:
 
-```
+```text
   -listeners int
-    	How many listeners do you wish to spawn? (default 50)
+        How many listeners do you wish to spawn? (default 50)
   -startingPort int
-    	What port do you want to start at? (default 10000)
+        What port do you want to start at? (default 10000)
   -transcriptMap string
-    	What file contains the map of commands to transcribed output? (default "transcripts/transcript_map.yml")
+        What file contains the map of commands to transcribed output? (default "transcripts/transcript_map.yml")
 ```
 
 For example, if you only wish to launch with a single SSH listener for a testing process,
  you could simply apply `-listeners 1` to the run command:
 
-```
-go run cissh.go -listeners 1
+```bash
+$ go run cissh.go -listeners 1
 2020/09/03 19:41:04 Starting cissh.go ssh server on port :10000
 ```
 
@@ -84,7 +87,7 @@ If you wish to modify elements of the transcript dynamically, for example the ho
 
 For example, in the packaged output of `show_version.txt` the hostname is listed as:
 
-```
+```text
 ROM: IOS-XE ROMMON
 {{.Hostname}} uptime is 4 hours, 55 minutes
 Uptime for this control processor is 4 hours, 56 minutes
@@ -92,15 +95,15 @@ Uptime for this control processor is 4 hours, 56 minutes
 
 Any value in the `fakedevices.FakeDevice` struct can be referenced in this way, today these are:
 
-```
+```go
 type FakeDevice struct {
-	Vendor            string            // Vendor of this fake device
-	Platform          string            // Platform of this fake device
-	Hostname          string            // Hostname of the fake device
-	Password          string            // Password of the fake device
-	SupportedCommands SupportedCommands // What commands this fake device supports
-	ContextSearch     map[string]string // The available CLI prompt/contexts on this fake device
-	ContextHierarchy  map[string]string // The hierarchy of the available contexts
+    Vendor            string            // Vendor of this fake device
+    Platform          string            // Platform of this fake device
+    Hostname          string            // Hostname of the fake device
+    Password          string            // Password of the fake device
+    SupportedCommands SupportedCommands // What commands this fake device supports
+    ContextSearch     map[string]string // The available CLI prompt/contexts on this fake device
+    ContextHierarchy  map[string]string // The hierarchy of the available contexts
 }
 ```
 
@@ -112,7 +115,7 @@ If you wish to template additional/different values, they will need to be added 
 If you wish to add additional command transcripts, you simply need to include a plain text file in the appropriate
  `vendor/platform` folder, and create an entry in the `transcript_map.yml` file under the appropriate vendor/platform:
 
-```
+```yaml
 ---
 platforms:
   - csr1000v:
@@ -136,7 +139,7 @@ This however does not work if a device follows a different interaction pattern t
 **NOTE** This feature is not fully implemented yet!
 
 If you wish to add a platform that is _not_ the "Cisco-style" of interaction, for example a Juniper or F5 device,
- you will need to implement a new `handler` module for it under `ssh_server/handlers` and add it to the 
+ you will need to implement a new `handler` module for it under `ssh_server/handlers` and add it to the
  device mapping in code in `cissh.go` where it chooses the SSH listener and handler.
 
 The "handler" controls the basics of how we will emulate the SSH session, and provides a list of
@@ -145,4 +148,5 @@ The "handler" controls the basics of how we will emulate the SSH session, and pr
   This is implemented via the "handler" functionality.
 
 ### Disclaimer
+
 Cisco IOS is the property/trademark of Cisco.
